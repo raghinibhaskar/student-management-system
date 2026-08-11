@@ -14,19 +14,26 @@ from database import init_db, get_db_connection
 
 import csv
 from io import StringIO
-
+import os
 
 app = Flask(__name__)
 
-# ============================================================
-# APPLICATION SETTINGS
-# ============================================================
+app.secret_key = os.environ.get(
+    "SECRET_KEY",
+    "studentpulse-secret-key"
+)
 
-app.secret_key = "studentpulse-secret-key"
+USERNAME = os.environ.get(
+    "ADMIN_USERNAME",
+    "admin"
+)
 
-# Login credentials
-USERNAME = "admin"
-PASSWORD = "studentpulse123"
+PASSWORD = os.environ.get(
+    "ADMIN_PASSWORD",
+    "studentpulse123"
+)
+
+
 
 # Initialize database
 init_db()
@@ -2548,9 +2555,10 @@ def export_csv():
 # ============================================================
 
 if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
 
     app.run(
-
-        debug=True
-
+        host="0.0.0.0",
+        port=port,
+        debug=False
     )

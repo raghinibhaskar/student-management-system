@@ -1,0 +1,11 @@
+student_id,age,gender,major,GPA,course_load,avg_course_grade,attendance_rate,enrollment_status,lms_logins_past_month,avg_session_duration_minutes,assignment_submission_rate,forum_participation_count,video_completion_rate,risk_level
+S001,24,Other,Computer Science,2.42,5,67.2,0.71,Graduated,32,33,0.70,8,0.74,High
+S002,21,Male,Arts,3.73,6,64.4,0.84,Leave,29,53,0.91,13,0.85,Medium
+S003,20,Female,Computer Science,3.50,5,78.5,0.92,Enrolled,40,45,0.95,20,0.90,Low
+S004,22,Male,Mathematics,2.80,6,71.0,0.80,Enrolled,25,38,0.75,10,0.70,Medium
+S005,23,Female,Physics,3.90,5,85.2,0.95,Enrolled,50,55,0.98,25,0.96,Low
+S006,21,Other,Computer Science,2.10,7,60.5,0.65,Leave,15,25,0.60,5,0.55,High
+S007,19,Female,Arts,3.20,4,74.3,0.88,Enrolled,35,42,0.85,15,0.80,Low
+S008,25,Male,Mathematics,2.60,6,68.9,0.76,Graduated,22,30,0.70,7,0.65,Medium
+S009,20,Female,Computer Science,3.80,5,88.0,0.97,Enrolled,55,60,0.99,30,0.95,Low
+S010,22,Male,Physics,2.30,7,62.1,0.69,Leave,18,28,0.65,6,0.60,High

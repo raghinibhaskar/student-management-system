@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Add Student - Step 1</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+
+    <style>
+
+        .form-container {
+
+            max-width: 700px;
+
+            margin: 30px auto;
+
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0, 0, 0, 0.08);
+
+        }
+
+
+        .form-group {
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-weight: 600;
+
+        }
+
+
+        .form-group input,
+
+        .form-group select {
+
+            width: 100%;
+
+            padding: 12px;
+
+            border:
+                1px solid #ccc;
+
+            border-radius: 6px;
+
+            font-size: 15px;
+
+            box-sizing: border-box;
+
+        }
+
+
+        .form-group input:focus,
+
+        .form-group select:focus {
+
+            outline: none;
+
+            border-color: #333;
+
+        }
+
+
+        .next-button {
+
+            margin-top: 20px;
+
+            padding:
+                12px 30px;
+
+            background: #333;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            font-size: 15px;
+
+        }
+
+
+        .next-button:hover {
+
+            opacity: 0.85;
+
+        }
+
+
+        /* =========================
+           ERROR MESSAGES
+        ========================= */
+
+        .error-message {
+
+            background: #fde8e7;
+
+            color: #c0392b;
+
+            border:
+                1px solid #f5b7b1;
+
+            padding: 12px 15px;
+
+            border-radius: 6px;
+
+            margin-bottom: 10px;
+
+            font-size: 14px;
+
+        }
+
+
+        .error-container {
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .error-container h3 {
+
+            margin-top: 0;
+
+            margin-bottom: 12px;
+
+            color: #c0392b;
+
+            font-size: 16px;
+
+        }
+
+
+        small {
+
+            display: block;
+
+            margin-top: 6px;
+
+            color: #777;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVIGATION BAR
+    ========================= -->
+
+
+    <nav class="navbar">
+
+
+        <h1>
+            Student Management System
+        </h1>
+
+
+        <div>
+
+
+            <a
+                href="{{ url_for('dashboard') }}"
+            >
+
+                Dashboard
+
+            </a>
+
+
+            <a
+                href="{{ url_for('students') }}"
+            >
+
+                Student Records
+
+            </a>
+
+
+            <a
+                href="{{ url_for('add_student') }}"
+            >
+
+                Add Student
+
+            </a>
+
+
+        </div>
+
+
+    </nav>
+
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================= -->
+
+
+    <main class="container">
+
+
+        <div class="page-title">
+
+
+            <h2>
+                Add New Student - Step 1 of 2
+            </h2>
+
+
+            <p>
+
+                Enter the student's basic
+                and academic information.
+
+            </p>
+
+
+        </div>
+
+
+
+        <!-- =========================
+             FORM
+        ========================= -->
+
+
+        <div class="form-container">
+
+
+            <!-- =========================
+                 ERROR MESSAGES
+            ========================= -->
+
+
+            {% with messages = get_flashed_messages(
+                with_categories=true
+            ) %}
+
+
+                {% if messages %}
+
+
+                    <div class="error-container">
+
+
+                        <h3>
+                            Please fix the following:
+                        </h3>
+
+
+                        {% for category, message in messages %}
+
+
+                            {% if category == "error" %}
+
+
+                                <div class="error-message">
+
+                                    ❌ {{ message }}
+
+                                </div>
+
+
+                            {% endif %}
+
+
+                        {% endfor %}
+
+
+                    </div>
+
+
+                {% endif %}
+
+
+            {% endwith %}
+
+
+
+            <!-- =========================
+                 STEP 1 FORM
+            ========================= -->
+
+
+            <form
+                method="POST"
+                action="{{ url_for('add_student') }}"
+            >
+
+
+                <!-- STUDENT ID -->
+
+
+                <div class="form-group">
+
+
+                    <label for="student_id">
+
+                        Student ID
+
+                    </label>
+
+
+                    <input
+
+                        type="text"
+
+                        id="student_id"
+
+                        name="student_id"
+
+                        placeholder="Example: S011"
+
+                        value="{{ request.form.get('student_id', '') }}"
+
+                        required
+
+                    >
+
+
+                </div>
+
+
+
+                <!-- AGE -->
+
+
+                <div class="form-group">
+
+
+                    <label for="age">
+
+                        Age
+
+                    </label>
+
+
+                    <input
+
+                        type="number"
+
+                        id="age"
+
+                        name="age"
+
+                        placeholder="Example: 21"
+
+                        value="{{ request.form.get('age', '') }}"
+
+                        min="1"
+
+                        max="100"
+
+                        required
+
+                    >
+
+
+                </div>
+
+
+
+                <!-- GENDER -->
+
+
+                <div class="form-group">
+
+
+                    <label for="gender">
+
+                        Gender
+
+                    </label>
+
+
+                    <select
+
+                        id="gender"
+
+                        name="gender"
+
+                        required
+
+                    >
+
+
+                        <option value="">
+
+                            Select Gender
+
+                        </option>
+
+
+                        <option
+
+                            value="Male"
+
+                            {% if request.form.get('gender') == 'Male' %}
+
+                            selected
+
+                            {% endif %}
+
+                        >
+
+                            Male
+
+                        </option>
+
+
+                        <option
+
+                            value="Female"
+
+                            {% if request.form.get('gender') == 'Female' %}
+
+                            selected
+
+                            {% endif %}
+
+                        >
+
+                            Female
+
+                        </option>
+
+
+                        <option
+
+                            value="Other"
+
+                            {% if request.form.get('gender') == 'Other' %}
+
+                            selected
+
+                            {% endif %}
+
+                        >
+
+                            Other
+
+                        </option>
+
+
+                    </select>
+
+
+                </div>
+
+
+
+                <!-- MAJOR -->
+
+
+                <div class="form-group">
+
+
+                    <label for="major">
+
+                        Major
+
+                    </label>
+
+
+                    <input
+
+                        type="text"
+
+                        id="major"
+
+                        name="major"
+
+                        placeholder="Example: Computer Science"
+
+                        value="{{ request.form.get('major', '') }}"
+
+                        required
+
+                    >
+
+
+                </div>
+
+
+
+                <!-- GPA -->
+
+
+                <div class="form-group">
+
+
+                    <label for="GPA">
+
+                        GPA
+
+                    </label>
+
+
+                    <input
+
+                        type="number"
+
+                        id="GPA"
+
+                        name="GPA"
+
+                        step="0.01"
+
+                        min="0"
+
+                        max="10"
+
+                        placeholder="Example: 3.50"
+
+                        value="{{ request.form.get('GPA', '') }}"
+
+                        required
+
+                    >
+
+
+                    <small>
+
+                        Enter a GPA between 0 and 10.
+
+                    </small>
+
+
+                </div>
+
+
+
+                <!-- COURSE LOAD -->
+
+
+                <div class="form-group">
+
+
+                    <label for="course_load">
+
+                        Course Load
+
+                    </label>
+
+
+                    <input
+
+                        type="number"
+
+                        id="course_load"
+
+                        name="course_load"
+
+                        min="1"
+
+                        placeholder="Example: 5"
+
+                        value="{{ request.form.get('course_load', '') }}"
+
+                        required
+
+                    >
+
+
+                </div>
+
+
+
+                <!-- AVERAGE COURSE GRADE -->
+
+
+                <div class="form-group">
+
+
+                    <label for="avg_course_grade">
+
+                        Average Course Grade
+
+                    </label>
+
+
+                    <input
+
+                        type="number"
+
+                        id="avg_course_grade"
+
+                        name="avg_course_grade"
+
+                        step="0.1"
+
+                        min="0"
+
+                        max="100"
+
+                        placeholder="Example: 75.5"
+
+                        value="{{ request.form.get('avg_course_grade', '') }}"
+
+                        required
+
+                    >
+
+
+                    <small>
+
+                        Enter a grade between 0 and 100.
+
+                    </small>
+
+
+                </div>
+
+
+
+                <!-- ATTENDANCE RATE -->
+
+
+                <div class="form-group">
+
+
+                    <label for="attendance_rate">
+
+                        Attendance Rate
+
+                    </label>
+
+
+                    <input
+
+                        type="number"
+
+                        id="attendance_rate"
+
+                        name="attendance_rate"
+
+                        step="0.01"
+
+                        min="0"
+
+                        max="1"
+
+                        placeholder="Example: 0.85"
+
+                        value="{{ request.form.get('attendance_rate', '') }}"
+
+                        required
+
+                    >
+
+
+                    <small>
+
+                        Example: 0.85 = 85%
+
+                    </small>
+
+
+                </div>
+
+
+
+                <!-- NEXT BUTTON -->
+
+
+                <button
+
+                    type="submit"
+
+                    class="next-button"
+
+                >
+
+                    Next →
+
+                </button>
+
+
+            </form>
+
+
+        </div>
+
+
+    </main>
+
+
+</body>
+
+</html>

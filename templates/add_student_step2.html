@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Add Student - Step 2</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+
+    <style>
+
+        .form-container {
+
+            max-width: 700px;
+
+            margin: 30px auto;
+
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0, 0, 0, 0.08);
+
+        }
+
+
+        .form-group {
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-weight: 600;
+
+        }
+
+
+        .form-group input,
+
+        .form-group select {
+
+            width: 100%;
+
+            padding: 12px;
+
+            border:
+                1px solid #ccc;
+
+            border-radius: 6px;
+
+            font-size: 15px;
+
+            box-sizing: border-box;
+
+        }
+
+
+        .form-group input:focus,
+
+        .form-group select:focus {
+
+            outline: none;
+
+            border-color: #333;
+
+        }
+
+
+        .button-container {
+
+            display: flex;
+
+            gap: 12px;
+
+            margin-top: 25px;
+
+        }
+
+
+        .back-button {
+
+            padding:
+                12px 30px;
+
+            background: #eee;
+
+            color: #333;
+
+            border: none;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            font-size: 15px;
+
+            text-decoration: none;
+
+            display: inline-block;
+
+        }
+
+
+        .back-button:hover {
+
+            background: #ddd;
+
+        }
+
+
+        .submit-button {
+
+            padding:
+                12px 30px;
+
+            background: #333;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            font-size: 15px;
+
+        }
+
+
+        .submit-button:hover {
+
+            opacity: 0.85;
+
+        }
+
+
+        /* =========================
+           ERROR MESSAGES
+        ========================= */
+
+        .error-container {
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .error-container h3 {
+
+            margin-top: 0;
+
+            margin-bottom: 12px;
+
+            color: #c0392b;
+
+            font-size: 16px;
+
+        }
+
+
+        .error-message {
+
+            background: #fde8e7;
+
+            color: #c0392b;
+
+            border:
+                1px solid #f5b7b1;
+
+            padding:
+                12px 15px;
+
+            border-radius: 6px;
+
+            margin-bottom: 10px;
+
+            font-size: 14px;
+
+        }
+
+
+        small {
+
+            display: block;
+
+            margin-top: 6px;
+
+            color: #777;
+
+        }
+
+
+        /* =========================
+           PROGRESS
+        ========================= */
+
+        .progress-container {
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .progress-text {
+
+            font-size: 14px;
+
+            color: #666;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .progress-bar {
+
+            width: 100%;
+
+            height: 8px;
+
+            background: #eee;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+
+        }
+
+
+        .progress-fill {
+
+            width: 100%;
+
+            height: 100%;
+
+            background: #333;
+
+            border-radius: 10px;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVIGATION BAR
+    ========================= -->
+
+
+    <nav class="navbar">
+
+
+        <h1>
+            Student Management System
+        </h1>
+
+
+        <div>
+
+
+            <a
+                href="{{ url_for('dashboard') }}"
+            >
+
+                Dashboard
+
+            </a>
+
+
+            <a
+                href="{{ url_for('students') }}"
+            >
+
+                Student Records
+
+            </a>
+
+
+            <a
+                href="{{ url_for('add_student') }}"
+            >
+
+                Add Student
+
+            </a>
+
+
+        </div>
+
+
+    </nav>
+
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================= -->
+
+
+    <main class="container">
+
+
+        <div class="page-title">
+
+
+            <h2>
+                Add New Student - Step 2 of 2
+            </h2>
+
+
+            <p>
+
+                Enter the student's engagement
+                and risk information.
+
+            </p>
+
+
+        </div>
+
+
+
+        <!-- =========================
+             FORM CONTAINER
+        ========================= -->
+
+
+        <div class="form-container">
+
+
+            <!-- PROGRESS -->
+
+
+            <div class="progress-container">
+
+
+                <div class="progress-text">
+
+                    Step 2 of 2 — Almost Done!
+
+                </div>
+
+
+                <div class="progress-bar">
+
+
+                    <div class="progress-fill"></div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =========================
+                 ERROR MESSAGES
+            ========================= -->
+
+
+            {% with messages = get_flashed_messages(
+                with_categories=true
+            ) %}
+
+
+                {% if messages %}
+
+
+                    <div class="error-container">
+
+
+                        <h3>
+                            Please fix the following:
+                        </h3>
+
+
+                        {% for category, message in messages %}
+
+
+                            {% if category == "error" %}
+
+
+                                <div class="error-message">
+
+                                    ❌ {{ message }}
+
+                                </div>
+
+
+                            {% endif %}
+
+
+                        {% endfor %}
+
+
+                    </div>
+
+
+                {% endif %}
+
+
+            {% endwith %}
+
+
+
+            <!-- =========================
+                 STEP 2 FORM
+            ========================= -->
+
+
+            <form
+
+                method="POST"
+
+                action="{{ url_for('add_student_step2') }}"
+
+            >
+
+
+                <!-- ENROLLMENT STATUS -->
+
+
+                <div class="form-group">
+
+
+                    <label for="enrollment_status">
+
+                        Enrollment Status
+
+                    </label>
+
+
+                    <select
+
+                        id="enrollment_status"
+
+                        name="enrollment_status"
+
+                        required
+
+                    >
+
+
+                        <option value="">
+
+                            Select Enrollment Status
+
+                        </option>
+
+
+                        <option value="Active">
+
+                            Active
+
+                        </option>
+
+
+                        <option value="Graduated">
+
+                            Graduated
+
+                        </option>
+
+
+                        <option value="Dropped">
+
+                            Dropped
+
+                        </option>
+
+
+                        <option value="On Leave">
+
+                            On Leave
+
+                        </option>
+
+
+                    </select>
+
+
+                </div>
+
+
+
+                <!-- LMS LOGINS -->
+
+
+                <div class="form-group">
+
+
+                    <label for="lms_logins_past_month">
+
+                        LMS Logins in Past Month
+
+                    </label>
+
+
+                    <input
+
+                        type="number"
+
+                        id="lms_logins_past_month"
+
+                        name="lms_logins_past_month"
+
+                        min="0"
+
+                        placeholder="Example: 25"
+
+                        required
+
+                    >
+
+
+                    <small>
+
+                        Number of times the student
+                        logged into the learning platform.
+
+                    </small>
+
+
+                </div>
+
+
+
+                <!-- SESSION DURATION -->
+
+
+                <div class="form-group">
+
+
+                    <label for="avg_session_duration_minutes">
+
+                        Average Session Duration (Minutes)
+
+                    </label>
+
+
+                    <input
+
+                        type="number"
+
+                        id="avg_session_duration_minutes"
+
+                        name="avg_session_duration_minutes"
+
+                        min="0"
+
+                        placeholder="Example: 45"
+
+                        required
+
+                    >
+
+
+                    <small>
+
+                        Average time spent per LMS session.
+
+                    </small>
+
+
+                </div>
+
+
+
+                <!-- ASSIGNMENT SUBMISSION -->
+
+
+                <div class="form-group">
+
+
+                    <label for="assignment_submission_rate">
+
+                        Assignment Submission Rate
+
+                    </label>
+
+
+                    <input
+
+                        type="number"
+
+                        id="assignment_submission_rate"
+
+                        name="assignment_submission_rate"
+
+                        step="0.01"
+
+                        min="0"
+
+                        max="1"
+
+                        placeholder="Example: 0.90"
+
+                        required
+
+                    >
+
+
+                    <small>
+
+                        Example: 0.90 = 90%
+
+                    </small>
+
+
+                </div>
+
+
+
+                <!-- FORUM PARTICIPATION -->
+
+
+                <div class="form-group">
+
+
+                    <label for="forum_participation_count">
+
+                        Forum Participation Count
+
+                    </label>
+
+
+                    <input
+
+                        type="number"
+
+                        id="forum_participation_count"
+
+                        name="forum_participation_count"
+
+                        min="0"
+
+                        placeholder="Example: 10"
+
+                        required
+
+                    >
+
+
+                    <small>
+
+                        Number of forum discussions
+                        or interactions.
+
+                    </small>
+
+
+                </div>
+
+
+
+                <!-- VIDEO COMPLETION -->
+
+
+                <div class="form-group">
+
+
+                    <label for="video_completion_rate">
+
+                        Video Completion Rate
+
+                    </label>
+
+
+                    <input
+
+                        type="number"
+
+                        id="video_completion_rate"
+
+                        name="video_completion_rate"
+
+                        step="0.01"
+
+                        min="0"
+
+                        max="1"
+
+                        placeholder="Example: 0.80"
+
+                        required
+
+                    >
+
+
+                    <small>
+
+                        Example: 0.80 = 80%
+
+                    </small>
+
+
+                </div>
+
+
+
+                <!-- RISK LEVEL -->
+
+
+                <div class="form-group">
+
+
+                    <label for="risk_level">
+
+                        Risk Level
+
+                    </label>
+
+
+                    <select
+
+                        id="risk_level"
+
+                        name="risk_level"
+
+                        required
+
+                    >
+
+
+                        <option value="">
+
+                            Select Risk Level
+
+                        </option>
+
+
+                        <option value="Low">
+
+                            Low
+
+                        </option>
+
+
+                        <option value="Medium">
+
+                            Medium
+
+                        </option>
+
+
+                        <option value="High">
+
+                            High
+
+                        </option>
+
+
+                    </select>
+
+
+                </div>
+
+
+
+                <!-- BUTTONS -->
+
+
+                <div class="button-container">
+
+
+                    <a
+
+                        href="{{ url_for('add_student') }}"
+
+                        class="back-button"
+
+                    >
+
+                        ← Back
+
+                    </a>
+
+
+                    <button
+
+                        type="submit"
+
+                        class="submit-button"
+
+                    >
+
+                        Add Student ✓
+
+                    </button>
+
+
+                </div>
+
+
+            </form>
+
+
+        </div>
+
+
+    </main>
+
+
+</body>
+
+</html>

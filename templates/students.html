@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Student Records | Student Analytics</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f5f6fa;
+
+            color: #333;
+
+        }
+
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+
+            position: fixed;
+
+            left: 0;
+
+            top: 0;
+
+            width: 240px;
+
+            height: 100vh;
+
+            background: white;
+
+            border-right:
+                1px solid #e5e5e5;
+
+            padding: 25px 15px;
+
+        }
+
+
+        .logo {
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+            padding:
+                10px 15px 30px;
+
+            line-height: 1.3;
+
+        }
+
+
+        .logo span {
+
+            font-size: 25px;
+
+        }
+
+
+        .nav-link {
+
+            display: block;
+
+            padding: 14px 18px;
+
+            margin-bottom: 8px;
+
+            text-decoration: none;
+
+            color: #555;
+
+            border-radius: 8px;
+
+            font-size: 15px;
+
+        }
+
+
+        .nav-link:hover {
+
+            background:
+                #f0f1f5;
+
+        }
+
+
+        .nav-link.active {
+
+            background: #333;
+
+            color: white;
+
+        }
+
+
+        /* =========================
+           MAIN CONTENT
+        ========================= */
+
+        .main-content {
+
+            margin-left: 240px;
+
+            padding: 35px;
+
+        }
+
+
+        /* =========================
+           FLASH POP-UP NOTIFICATIONS
+        ========================= */
+
+        #flash-container {
+
+            position: fixed;
+
+            top: 25px;
+
+            right: 25px;
+
+            z-index: 9999;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 12px;
+
+        }
+
+
+        .flash-popup {
+
+            min-width: 300px;
+
+            max-width: 400px;
+
+            padding: 15px 18px;
+
+            border-radius: 10px;
+
+            background: white;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0, 0, 0, 0.15);
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            animation:
+                slideIn 0.3s ease;
+
+        }
+
+
+        .flash-popup.success {
+
+            color: #27863b;
+
+            border-left:
+                5px solid #27863b;
+
+        }
+
+
+        .flash-popup.error {
+
+            color: #c0392b;
+
+            border-left:
+                5px solid #c0392b;
+
+        }
+
+
+        .flash-popup.info {
+
+            color: #2980b9;
+
+            border-left:
+                5px solid #2980b9;
+
+        }
+
+
+        .close-popup {
+
+            margin-left: auto;
+
+            border: none;
+
+            background: transparent;
+
+            font-size: 20px;
+
+            color: #777;
+
+            cursor: pointer;
+
+            line-height: 1;
+
+        }
+
+
+        .close-popup:hover {
+
+            color: #333;
+
+        }
+
+
+        /* =========================
+           POP-UP ANIMATION
+        ========================= */
+
+        @keyframes slideIn {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateX(100px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateX(0);
+
+            }
+
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .page-header {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .page-header h1 {
+
+            margin: 0;
+
+            font-size: 28px;
+
+        }
+
+
+        .page-header p {
+
+            color: #777;
+
+            margin-top: 8px;
+
+        }
+
+
+        .header-buttons {
+
+            display: flex;
+
+            gap: 10px;
+
+            align-items: center;
+
+        }
+
+
+        .add-button {
+
+            background: #333;
+
+            color: white;
+
+            padding:
+                12px 20px;
+
+            text-decoration: none;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+
+        }
+
+
+        .add-button:hover {
+
+            opacity: 0.85;
+
+        }
+
+
+        .export-button {
+
+            background: #27863b;
+
+            color: white;
+
+            padding:
+                12px 20px;
+
+            text-decoration: none;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+
+        }
+
+
+        .export-button:hover {
+
+            opacity: 0.85;
+
+        }
+
+
+        /* =========================
+           FILTER SECTION
+        ========================= */
+
+        .filter-card {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            border:
+                1px solid #eee;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .filter-card h2 {
+
+            margin-top: 0;
+
+            font-size: 18px;
+
+        }
+
+
+        .filter-form {
+
+            display: grid;
+
+            grid-template-columns:
+                2fr 1fr 1fr 1fr auto auto;
+
+            gap: 12px;
+
+            align-items: end;
+
+        }
+
+
+        .form-group {
+
+            display: flex;
+
+            flex-direction: column;
+
+        }
+
+
+        .form-group label {
+
+            font-size: 13px;
+
+            color: #666;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .form-group input,
+
+        .form-group select {
+
+            padding: 11px;
+
+            border:
+                1px solid #ddd;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+
+            background: white;
+
+        }
+
+
+        .filter-button {
+
+            padding:
+                11px 18px;
+
+            border: none;
+
+            border-radius: 7px;
+
+            background: #333;
+
+            color: white;
+
+            cursor: pointer;
+
+            font-size: 14px;
+
+        }
+
+
+        .reset-button {
+
+            padding:
+                11px 18px;
+
+            border-radius: 7px;
+
+            background: #eee;
+
+            color: #333;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            text-align: center;
+
+        }
+
+
+        /* =========================
+           RECORDS CARD
+        ========================= */
+
+        .records-card {
+
+            background: white;
+
+            border-radius: 12px;
+
+            border:
+                1px solid #eee;
+
+            overflow: hidden;
+
+        }
+
+
+        .records-header {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            padding: 25px;
+
+            border-bottom:
+                1px solid #eee;
+
+        }
+
+
+        .records-header h2 {
+
+            margin: 0;
+
+            font-size: 18px;
+
+        }
+
+
+        .student-count {
+
+            color: #777;
+
+            font-size: 14px;
+
+        }
+
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-wrapper {
+
+            overflow-x: auto;
+
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse:
+                collapse;
+
+        }
+
+
+        th {
+
+            background:
+                #fafafa;
+
+            padding: 15px;
+
+            text-align: left;
+
+            font-size: 13px;
+
+            color: #666;
+
+            font-weight: 600;
+
+            white-space: nowrap;
+
+        }
+
+
+        td {
+
+            padding: 15px;
+
+            border-top:
+                1px solid #eee;
+
+            font-size: 14px;
+
+            white-space: nowrap;
+
+        }
+
+
+        tr:hover {
+
+            background:
+                #fafafa;
+
+        }
+
+
+        /* =========================
+           RISK BADGES
+        ========================= */
+
+        .risk-badge {
+
+            padding:
+                6px 10px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+        }
+
+
+        .risk-high {
+
+            background:
+                #fde8e7;
+
+            color:
+                #c0392b;
+
+        }
+
+
+        .risk-medium {
+
+            background:
+                #fff3dc;
+
+            color:
+                #d68910;
+
+        }
+
+
+        .risk-low {
+
+            background:
+                #e6f6ea;
+
+            color:
+                #27863b;
+
+        }
+
+
+        /* =========================
+           ATTENDANCE
+        ========================= */
+
+        .attendance {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+        }
+
+
+        .attendance-bar {
+
+            width: 70px;
+
+            height: 6px;
+
+            background:
+                #eee;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+
+        }
+
+
+        .attendance-fill {
+
+            height: 100%;
+
+            background:
+                #555;
+
+            border-radius: 10px;
+
+        }
+
+
+        /* =========================
+           ACTION BUTTONS
+        ========================= */
+
+        .action-buttons {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+        }
+
+
+        .view-button,
+
+        .edit-button {
+
+            display: inline-block;
+
+            padding:
+                7px 14px;
+
+            border-radius: 6px;
+
+            font-size: 12px;
+
+            text-decoration: none;
+
+            cursor: pointer;
+
+            transition:
+                0.2s;
+
+        }
+
+
+        .view-button {
+
+            border:
+                1px solid #333;
+
+            background: #333;
+
+            color: white;
+
+        }
+
+
+        .view-button:hover {
+
+            background: #555;
+
+            border-color: #555;
+
+        }
+
+
+        .edit-button {
+
+            border:
+                1px solid #555;
+
+            background: white;
+
+            color: #333;
+
+        }
+
+
+        .edit-button:hover {
+
+            background: #f0f0f0;
+
+        }
+
+
+        .delete-button {
+
+            display: inline-block;
+
+            padding:
+                7px 14px;
+
+            border:
+                1px solid #c0392b;
+
+            border-radius: 6px;
+
+            background: white;
+
+            color: #c0392b;
+
+            font-size: 12px;
+
+            cursor: pointer;
+
+            transition:
+                0.2s;
+
+        }
+
+
+        .delete-button:hover {
+
+            background: #c0392b;
+
+            color: white;
+
+        }
+
+
+        /* =========================
+           NO RECORDS
+        ========================= */
+
+        .no-records {
+
+            padding: 60px;
+
+            text-align: center;
+
+            color: #777;
+
+        }
+
+
+        .no-records h3 {
+
+            color: #444;
+
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 1100px) {
+
+            .filter-form {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+
+                position: relative;
+
+                width: 100%;
+
+                height: auto;
+
+            }
+
+
+            .main-content {
+
+                margin-left: 0;
+
+                padding: 20px;
+
+            }
+
+
+            .page-header {
+
+                display: block;
+
+            }
+
+
+            .header-buttons {
+
+                margin-top: 15px;
+
+                flex-wrap: wrap;
+
+            }
+
+
+            .add-button,
+
+            .export-button {
+
+                display: inline-block;
+
+            }
+
+
+            .filter-form {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            #flash-container {
+
+                top: 15px;
+
+                right: 15px;
+
+                left: 15px;
+
+            }
+
+
+            .flash-popup {
+
+                min-width: auto;
+
+                width: 100%;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         FLASH POP-UP MESSAGES
+    ========================= -->
+
+    <div id="flash-container">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="flash-popup {{ category }}">
+
+                        {% if category == "success" %}
+
+                            ✅
+
+                        {% elif category == "error" %}
+
+                            ❌
+
+                        {% else %}
+
+                            ℹ️
+
+                        {% endif %}
+
+
+                        <span>
+
+                            {{ message }}
+
+                        </span>
+
+
+                        <button
+                            type="button"
+                            class="close-popup"
+                            onclick="this.parentElement.remove()"
+                        >
+
+                            ×
+
+                        </button>
+
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+    </div>
+
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================= -->
+
+    <aside class="sidebar">
+
+
+        <div class="logo">
+
+            <span>🎓</span>
+
+            <br>
+
+            Student Analytics
+
+        </div>
+
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="nav-link"
+        >
+
+            📊 Dashboard
+
+        </a>
+
+
+        <a
+            href="{{ url_for('students') }}"
+            class="nav-link active"
+        >
+
+            👥 Student Records
+
+        </a>
+
+
+        <a
+            href="{{ url_for('add_student') }}"
+            class="nav-link"
+        >
+
+            ➕ Add Student
+
+        </a>
+
+
+    </aside>
+
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================= -->
+
+    <main class="main-content">
+
+
+        <!-- =========================
+             HEADER
+        ========================= -->
+
+        <div class="page-header">
+
+
+            <div>
+
+                <h1>
+                    Student Records
+                </h1>
+
+                <p>
+                    View and manage student
+                    academic and engagement records.
+                </p>
+
+            </div>
+
+
+            <!-- HEADER BUTTONS -->
+
+            <div class="header-buttons">
+
+
+                <!-- EXPORT CSV -->
+
+                <a
+                    href="{{ url_for('export_csv') }}"
+                    class="export-button"
+                >
+
+                    📥 Export CSV
+
+                </a>
+
+
+                <!-- ADD STUDENT -->
+
+                <a
+                    href="{{ url_for('add_student') }}"
+                    class="add-button"
+                >
+
+                    + Add New Student
+
+                </a>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =========================
+             FILTERS
+        ========================= -->
+
+        <section class="filter-card">
+
+
+            <h2>
+                Search & Filter
+            </h2>
+
+
+            <form
+                method="GET"
+                action="{{ url_for('students') }}"
+                class="filter-form"
+            >
+
+
+                <!-- SEARCH -->
+
+                <div class="form-group">
+
+                    <label>
+                        Search Student ID
+                    </label>
+
+                    <input
+                        type="text"
+                        name="search"
+                        placeholder="Example: S001"
+                        value="{{ search }}"
+                    >
+
+                </div>
+
+
+
+                <!-- MAJOR -->
+
+                <div class="form-group">
+
+                    <label>
+                        Major
+                    </label>
+
+                    <select name="major">
+
+                        <option value="">
+                            All Majors
+                        </option>
+
+
+                        {% for major in majors %}
+
+                        <option
+                            value="{{ major['major'] }}"
+                            {% if selected_major == major['major'] %}
+                            selected
+                            {% endif %}
+                        >
+
+                            {{ major['major'] }}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- RISK -->
+
+                <div class="form-group">
+
+                    <label>
+                        Risk Level
+                    </label>
+
+                    <select name="risk">
+
+                        <option value="">
+                            All Risk Levels
+                        </option>
+
+
+                        <option
+                            value="High"
+                            {% if selected_risk == "High" %}
+                            selected
+                            {% endif %}
+                        >
+
+                            High Risk
+
+                        </option>
+
+
+                        <option
+                            value="Medium"
+                            {% if selected_risk == "Medium" %}
+                            selected
+                            {% endif %}
+                        >
+
+                            Medium Risk
+
+                        </option>
+
+
+                        <option
+                            value="Low"
+                            {% if selected_risk == "Low" %}
+                            selected
+                            {% endif %}
+                        >
+
+                            Low Risk
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- STATUS -->
+
+                <div class="form-group">
+
+                    <label>
+                        Enrollment Status
+                    </label>
+
+                    <select name="status">
+
+                        <option value="">
+                            All Statuses
+                        </option>
+
+
+                        {% for status in statuses %}
+
+                        <option
+                            value="{{ status['enrollment_status'] }}"
+                            {% if selected_status == status['enrollment_status'] %}
+                            selected
+                            {% endif %}
+                        >
+
+                            {{ status['enrollment_status'] }}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- SEARCH BUTTON -->
+
+                <button
+                    type="submit"
+                    class="filter-button"
+                >
+
+                    Search
+
+                </button>
+
+
+
+                <!-- RESET -->
+
+                <a
+                    href="{{ url_for('students') }}"
+                    class="reset-button"
+                >
+
+                    Reset
+
+                </a>
+
+
+            </form>
+
+
+        </section>
+
+
+
+        <!-- =========================
+             STUDENT RECORDS
+        ========================= -->
+
+        <section class="records-card">
+
+
+            <div class="records-header">
+
+
+                <h2>
+                    All Student Records
+                </h2>
+
+
+                <span class="student-count">
+
+                    {{ students|length }}
+                    student(s) found
+
+                </span>
+
+
+            </div>
+
+
+
+            <!-- TABLE -->
+
+            {% if students %}
+
+
+            <div class="table-wrapper">
+
+
+                <table>
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Student ID
+                            </th>
+
+                            <th>
+                                Age
+                            </th>
+
+                            <th>
+                                Gender
+                            </th>
+
+                            <th>
+                                Major
+                            </th>
+
+                            <th>
+                                GPA
+                            </th>
+
+                            <th>
+                                Attendance
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Risk Level
+                            </th>
+
+                            <th>
+                                Actions
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        {% for student in students %}
+
+
+                        <tr>
+
+
+                            <!-- ID -->
+
+                            <td>
+
+                                <strong>
+                                    {{ student['student_id'] }}
+                                </strong>
+
+                            </td>
+
+
+                            <!-- AGE -->
+
+                            <td>
+
+                                {{ student['age'] }}
+
+                            </td>
+
+
+                            <!-- GENDER -->
+
+                            <td>
+
+                                {{ student['gender'] }}
+
+                            </td>
+
+
+                            <!-- MAJOR -->
+
+                            <td>
+
+                                {{ student['major'] }}
+
+                            </td>
+
+
+                            <!-- GPA -->
+
+                            <td>
+
+                                <strong>
+
+                                    {{ "%.2f"|format(
+                                        student['GPA']
+                                    ) }}
+
+                                </strong>
+
+                            </td>
+
+
+                            <!-- ATTENDANCE -->
+
+                            <td>
+
+
+                                <div class="attendance">
+
+
+                                    <span>
+
+                                        {{ "%.0f"|format(
+                                            student['attendance_rate']
+                                            * 100
+                                        ) }}%
+
+                                    </span>
+
+
+                                    <div
+                                        class="attendance-bar"
+                                    >
+
+                                        <div
+                                            class="attendance-fill"
+                                            style="
+                                                width:
+                                                {{ student['attendance_rate'] * 100 }}%;
+                                            "
+                                        ></div>
+
+                                    </div>
+
+
+                                </div>
+
+
+                            </td>
+
+
+                            <!-- STATUS -->
+
+                            <td>
+
+                                {{ student['enrollment_status'] }}
+
+                            </td>
+
+
+                            <!-- RISK -->
+
+                            <td>
+
+
+                                {% if student['risk_level'] == "High" %}
+
+
+                                <span
+                                    class="risk-badge risk-high"
+                                >
+
+                                    🔴 High
+
+                                </span>
+
+
+                                {% elif student['risk_level'] == "Medium" %}
+
+
+                                <span
+                                    class="risk-badge risk-medium"
+                                >
+
+                                    🟡 Medium
+
+                                </span>
+
+
+                                {% else %}
+
+
+                                <span
+                                    class="risk-badge risk-low"
+                                >
+
+                                    🟢 Low
+
+                                </span>
+
+
+                                {% endif %}
+
+
+                            </td>
+
+
+                            <!-- ACTIONS -->
+
+                            <td>
+
+
+                                <div class="action-buttons">
+
+
+                                    <!-- VIEW -->
+
+                                    <a
+                                        href="{{ url_for('student_details', student_id=student['student_id']) }}"
+                                        class="view-button"
+                                    >
+
+                                        View
+
+                                    </a>
+
+
+                                    <!-- EDIT -->
+
+                                    <a
+                                        href="{{ url_for('edit_student', student_id=student['student_id']) }}"
+                                        class="edit-button"
+                                    >
+
+                                        Edit
+
+                                    </a>
+
+
+                                    <!-- DELETE -->
+
+                                    <form
+                                        method="POST"
+                                        action="{{ url_for('delete_student', student_id=student['student_id']) }}"
+                                        style="display: inline;"
+                                        onsubmit="return confirm('Are you sure you want to delete this student?');"
+                                    >
+
+                                        <button
+                                            type="submit"
+                                            class="delete-button"
+                                        >
+
+                                            Delete
+
+                                        </button>
+
+                                    </form>
+
+
+                                </div>
+
+
+                            </td>
+
+
+                        </tr>
+
+
+                        {% endfor %}
+
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+            {% else %}
+
+
+            <!-- NO RECORDS -->
+
+            <div class="no-records">
+
+
+                <h3>
+                    No Students Found
+                </h3>
+
+
+                <p>
+
+                    Try changing your search
+                    or filter options.
+
+                </p>
+
+
+                <a
+                    href="{{ url_for('students') }}"
+                    class="reset-button"
+                >
+
+                    Clear Filters
+
+                </a>
+
+
+            </div>
+
+
+            {% endif %}
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =========================
+         AUTO HIDE FLASH POP-UP
+    ========================= -->
+
+    <script>
+
+        setTimeout(function() {
+
+            const popups =
+                document.querySelectorAll(
+                    ".flash-popup"
+                );
+
+
+            popups.forEach(function(popup) {
+
+                popup.style.opacity = "0";
+
+                popup.style.transform =
+                    "translateX(100px)";
+
+                popup.style.transition =
+                    "0.3s ease";
+
+
+                setTimeout(function() {
+
+                    popup.remove();
+
+                }, 300);
+
+            });
+
+        }, 4000);
+
+    </script>
+
+
+</body>
+
+</html>

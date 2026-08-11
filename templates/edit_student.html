@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Edit Student | Student Analytics</title>
+
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+
+    <style>
+
+        /* =========================
+           FORM CONTAINER
+        ========================= */
+
+        .form-container {
+
+            max-width: 800px;
+
+            margin: 30px auto;
+
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0, 0, 0, 0.08);
+
+        }
+
+
+        /* =========================
+           FORM GROUP
+        ========================= */
+
+        .form-group {
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-weight: 600;
+
+            color: #333;
+
+        }
+
+
+        .form-group input,
+
+        .form-group select {
+
+            width: 100%;
+
+            padding: 12px;
+
+            border:
+                1px solid #ccc;
+
+            border-radius: 6px;
+
+            font-size: 15px;
+
+            box-sizing: border-box;
+
+            background: white;
+
+        }
+
+
+        .form-group input:focus,
+
+        .form-group select:focus {
+
+            outline: none;
+
+            border-color: #333;
+
+        }
+
+
+        /* =========================
+           GRID
+        ========================= */
+
+        .form-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 20px;
+
+        }
+
+
+        /* =========================
+           READ ONLY STUDENT ID
+        ========================= */
+
+        .readonly-input {
+
+            background: #f3f3f3 !important;
+
+            color: #666;
+
+            cursor: not-allowed;
+
+        }
+
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .button-container {
+
+            display: flex;
+
+            gap: 12px;
+
+            margin-top: 30px;
+
+        }
+
+
+        .update-button {
+
+            padding:
+                12px 30px;
+
+            background: #333;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            font-size: 15px;
+
+        }
+
+
+        .update-button:hover {
+
+            opacity: 0.85;
+
+        }
+
+
+        .cancel-button {
+
+            padding:
+                12px 30px;
+
+            background: #eee;
+
+            color: #333;
+
+            border-radius: 6px;
+
+            text-decoration: none;
+
+            font-size: 15px;
+
+            display: inline-block;
+
+        }
+
+
+        .cancel-button:hover {
+
+            background: #ddd;
+
+        }
+
+
+        /* =========================
+           ERROR MESSAGES
+        ========================= */
+
+        .error-container {
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .error-container h3 {
+
+            margin-top: 0;
+
+            margin-bottom: 12px;
+
+            color: #c0392b;
+
+            font-size: 16px;
+
+        }
+
+
+        .error-message {
+
+            background: #fde8e7;
+
+            color: #c0392b;
+
+            border:
+                1px solid #f5b7b1;
+
+            padding:
+                12px 15px;
+
+            border-radius: 6px;
+
+            margin-bottom: 10px;
+
+            font-size: 14px;
+
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            .form-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .form-container {
+
+                margin: 20px;
+
+                padding: 25px;
+
+            }
+
+
+            .button-container {
+
+                flex-direction: column;
+
+            }
+
+
+            .update-button,
+
+            .cancel-button {
+
+                text-align: center;
+
+                width: 100%;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVIGATION BAR
+    ========================= -->
+
+
+    <nav class="navbar">
+
+
+        <h1>
+
+            Student Management System
+
+        </h1>
+
+
+        <div>
+
+
+            <a
+                href="{{ url_for('dashboard') }}"
+            >
+
+                Dashboard
+
+            </a>
+
+
+            <a
+                href="{{ url_for('students') }}"
+            >
+
+                Student Records
+
+            </a>
+
+
+            <a
+                href="{{ url_for('add_student') }}"
+            >
+
+                Add Student
+
+            </a>
+
+
+        </div>
+
+
+    </nav>
+
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================= -->
+
+
+    <main class="container">
+
+
+        <div class="page-title">
+
+
+            <h2>
+
+                Edit Student
+
+            </h2>
+
+
+            <p>
+
+                Update the student's academic,
+                engagement, and risk information.
+
+            </p>
+
+
+        </div>
+
+
+
+        <!-- =========================
+             FORM CONTAINER
+        ========================= -->
+
+
+        <div class="form-container">
+
+
+            <!-- =========================
+                 ERROR MESSAGES
+            ========================= -->
+
+
+            {% with messages = get_flashed_messages(
+                with_categories=true
+            ) %}
+
+
+                {% if messages %}
+
+
+                    <div class="error-container">
+
+
+                        <h3>
+
+                            Please fix the following:
+
+                        </h3>
+
+
+                        {% for category, message in messages %}
+
+
+                            {% if category == "error" %}
+
+
+                                <div class="error-message">
+
+                                    ❌ {{ message }}
+
+                                </div>
+
+
+                            {% endif %}
+
+
+                        {% endfor %}
+
+
+                    </div>
+
+
+                {% endif %}
+
+
+            {% endwith %}
+
+
+
+            <!-- =========================
+                 EDIT FORM
+            ========================= -->
+
+
+            <form
+
+                method="POST"
+
+                action="{{ url_for(
+                    'edit_student',
+                    student_id=student['student_id']
+                ) }}"
+
+            >
+
+
+                <!-- =========================
+                     BASIC INFORMATION
+                ========================= -->
+
+
+                <h3>
+
+                    Basic Information
+
+                </h3>
+
+
+                <br>
+
+
+                <div class="form-grid">
+
+
+                    <!-- STUDENT ID -->
+
+
+                    <div class="form-group">
+
+
+                        <label for="student_id">
+
+                            Student ID
+
+                        </label>
+
+
+                        <input
+
+                            type="text"
+
+                            id="student_id"
+
+                            name="student_id"
+
+                            value="{{ student['student_id'] }}"
+
+                            class="readonly-input"
+
+                            readonly
+
+                        >
+
+
+                    </div>
+
+
+
+                    <!-- AGE -->
+
+
+                    <div class="form-group">
+
+
+                        <label for="age">
+
+                            Age
+
+                        </label>
+
+
+                        <input
+
+                            type="number"
+
+                            id="age"
+
+                            name="age"
+
+                            min="1"
+
+                            max="100"
+
+                            value="{{ student['age'] }}"
+
+                            required
+
+                        >
+
+
+                    </div>
+
+
+
+                    <!-- GENDER -->
+
+
+                    <div class="form-group">
+
+
+                        <label for="gender">
+
+                            Gender
+
+                        </label>
+
+
+                        <select
+
+                            id="gender"
+
+                            name="gender"
+
+                            required
+
+                        >
+
+
+                            <option
+
+                                value="Male"
+
+                                {% if student['gender'] == 'Male' %}
+
+                                selected
+
+                                {% endif %}
+
+                            >
+
+                                Male
+
+                            </option>
+
+
+                            <option
+
+                                value="Female"
+
+                                {% if student['gender'] == 'Female' %}
+
+                                selected
+
+                                {% endif %}
+
+                            >
+
+                                Female
+
+                            </option>
+
+
+                            <option
+
+                                value="Other"
+
+                                {% if student['gender'] == 'Other' %}
+
+                                selected
+
+                                {% endif %}
+
+                            >
+
+                                Other
+
+                            </option>
+
+
+                        </select>
+
+
+                    </div>
+
+
+
+                    <!-- MAJOR -->
+
+
+                    <div class="form-group">
+
+
+                        <label for="major">
+
+                            Major
+
+                        </label>
+
+
+                        <input
+
+                            type="text"
+
+                            id="major"
+
+                            name="major"
+
+                            value="{{ student['major'] }}"
+
+                            required
+
+                        >
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     ACADEMIC INFORMATION
+                ========================= -->
+
+
+                <h3>
+
+                    Academic Information
+
+                </h3>
+
+
+                <br>
+
+
+                <div class="form-grid">
+
+
+                    <!-- GPA -->
+
+
+                    <div class="form-group">
+
+
+                        <label for="GPA">
+
+                            GPA
+
+                        </label>
+
+
+                        <input
+
+                            type="number"
+
+                            id="GPA"
+
+                            name="GPA"
+
+                            step="0.01"
+
+                            min="0"
+
+                            max="10"
+
+                            value="{{ student['GPA'] }}"
+
+                            required
+
+                        >
+
+
+                    </div>
+
+
+
+                    <!-- COURSE LOAD -->
+
+
+                    <div class="form-group">
+
+
+                        <label for="course_load">
+
+                            Course Load
+
+                        </label>
+
+
+                        <input
+
+                            type="number"
+
+                            id="course_load"
+
+                            name="course_load"
+
+                            min="1"
+
+                            value="{{ student['course_load'] }}"
+
+                            required
+
+                        >
+
+
+                    </div>
+
+
+
+                    <!-- AVERAGE COURSE GRADE -->
+
+
+                    <div class="form-group">
+
+
+                        <label for="avg_course_grade">
+
+                            Average Course Grade
+
+                        </label>
+
+
+                        <input
+
+                            type="number"
+
+                            id="avg_course_grade"
+
+                            name="avg_course_grade"
+
+                            step="0.1"
+
+                            min="0"
+
+                            max="100"
+
+                            value="{{ student['avg_course_grade'] }}"
+
+                            required
+
+                        >
+
+
+                    </div>
+
+
+
+                    <!-- ATTENDANCE -->
+
+
+                    <div class="form-group">
+
+
+                        <label for="attendance_rate">
+
+                            Attendance Rate
+
+                        </label>
+
+
+                        <input
+
+                            type="number"
+
+                            id="attendance_rate"
+
+                            name="attendance_rate"
+
+                            step="0.01"
+
+                            min="0"
+
+                            max="1"
+
+                            value="{{ student['attendance_rate'] }}"
+
+                            required
+
+                        >
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     ENGAGEMENT INFORMATION
+                ========================= -->
+
+
+                <h3>
+
+                    Engagement Information
+
+                </h3>
+
+
+                <br>
+
+
+                <div class="form-grid">
+
+
+                    <!-- ENROLLMENT STATUS -->
+
+
+                    <div class="form-group">
+
+
+                        <label for="enrollment_status">
+
+                            Enrollment Status
+
+                        </label>
+
+
+                        <select
+
+                            id="enrollment_status"
+
+                            name="enrollment_status"
+
+                            required
+
+                        >
+
+
+                            <option
+
+                                value="Active"
+
+                                {% if student['enrollment_status'] == 'Active' %}
+
+                                selected
+
+                                {% endif %}
+
+                            >
+
+                                Active
+
+                            </option>
+
+
+                            <option
+
+                                value="Graduated"
+
+                                {% if student['enrollment_status'] == 'Graduated' %}
+
+                                selected
+
+                                {% endif %}
+
+                            >
+
+                                Graduated
+
+                            </option>
+
+
+                            <option
+
+                                value="Dropped"
+
+                                {% if student['enrollment_status'] == 'Dropped' %}
+
+                                selected
+
+                                {% endif %}
+
+                            >
+
+                                Dropped
+
+                            </option>
+
+
+                            <option
+
+                                value="On Leave"
+
+                                {% if student['enrollment_status'] == 'On Leave' %}
+
+                                selected
+
+                                {% endif %}
+
+                            >
+
+                                On Leave
+
+                            </option>
+
+
+                        </select>
+
+
+                    </div>
+
+
+
+                    <!-- LMS LOGINS -->
+
+
+                    <div class="form-group">
+
+
+                        <label for="lms_logins_past_month">
+
+                            LMS Logins Past Month
+
+                        </label>
+
+
+                        <input
+
+                            type="number"
+
+                            id="lms_logins_past_month"
+
+                            name="lms_logins_past_month"
+
+                            min="0"
+
+                            value="{{ student['lms_logins_past_month'] }}"
+
+                            required
+
+                        >
+
+
+                    </div>
+
+
+
+                    <!-- SESSION DURATION -->
+
+
+                    <div class="form-group">
+
+
+                        <label for="avg_session_duration_minutes">
+
+                            Average Session Duration
+
+                        </label>
+
+
+                        <input
+
+                            type="number"
+
+                            id="avg_session_duration_minutes"
+
+                            name="avg_session_duration_minutes"
+
+                            min="0"
+
+                            value="{{ student['avg_session_duration_minutes'] }}"
+
+                            required
+
+                        >
+
+
+                    </div>
+
+
+
+                    <!-- ASSIGNMENT RATE -->
+
+
+                    <div class="form-group">
+
+
+                        <label for="assignment_submission_rate">
+
+                            Assignment Submission Rate
+
+                        </label>
+
+
+                        <input
+
+                            type="number"
+
+                            id="assignment_submission_rate"
+
+                            name="assignment_submission_rate"
+
+                            step="0.01"
+
+                            min="0"
+
+                            max="1"
+
+                            value="{{ student['assignment_submission_rate'] }}"
+
+                            required
+
+                        >
+
+
+                    </div>
+
+
+
+                    <!-- FORUM PARTICIPATION -->
+
+
+                    <div class="form-group">
+
+
+                        <label for="forum_participation_count">
+
+                            Forum Participation Count
+
+                        </label>
+
+
+                        <input
+
+                            type="number"
+
+                            id="forum_participation_count"
+
+                            name="forum_participation_count"
+
+                            min="0"
+
+                            value="{{ student['forum_participation_count'] }}"
+
+                            required
+
+                        >
+
+
+                    </div>
+
+
+
+                    <!-- VIDEO COMPLETION -->
+
+
+                    <div class="form-group">
+
+
+                        <label for="video_completion_rate">
+
+                            Video Completion Rate
+
+                        </label>
+
+
+                        <input
+
+                            type="number"
+
+                            id="video_completion_rate"
+
+                            name="video_completion_rate"
+
+                            step="0.01"
+
+                            min="0"
+
+                            max="1"
+
+                            value="{{ student['video_completion_rate'] }}"
+
+                            required
+
+                        >
+
+
+                    </div>
+
+
+
+                    <!-- RISK LEVEL -->
+
+
+                    <div class="form-group">
+
+
+                        <label for="risk_level">
+
+                            Risk Level
+
+                        </label>
+
+
+                        <select
+
+                            id="risk_level"
+
+                            name="risk_level"
+
+                            required
+
+                        >
+
+
+                            <option
+
+                                value="Low"
+
+                                {% if student['risk_level'] == 'Low' %}
+
+                                selected
+
+                                {% endif %}
+
+                            >
+
+                                Low
+
+                            </option>
+
+
+                            <option
+
+                                value="Medium"
+
+                                {% if student['risk_level'] == 'Medium' %}
+
+                                selected
+
+                                {% endif %}
+
+                            >
+
+                                Medium
+
+                            </option>
+
+
+                            <option
+
+                                value="High"
+
+                                {% if student['risk_level'] == 'High' %}
+
+                                selected
+
+                                {% endif %}
+
+                            >
+
+                                High
+
+                            </option>
+
+
+                        </select>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     BUTTONS
+                ========================= -->
+
+
+                <div class="button-container">
+
+
+                    <a
+
+                        href="{{ url_for(
+                            'student_details',
+                            student_id=student['student_id']
+                        ) }}"
+
+                        class="cancel-button"
+
+                    >
+
+                        Cancel
+
+                    </a>
+
+
+                    <button
+
+                        type="submit"
+
+                        class="update-button"
+
+                    >
+
+                        Update Student ✓
+
+                    </button>
+
+
+                </div>
+
+
+            </form>
+
+
+        </div>
+
+
+    </main>
+
+
+</body>
+
+</html>

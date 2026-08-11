@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | Prodigy Infotech</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+            background: #dff3ff;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            overflow-x: hidden;
+        }
+
+        /* =========================================
+           BACKGROUND
+        ========================================= */
+
+        .background-circle {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .circle-one {
+            width: 420px;
+            height: 420px;
+            background: rgba(255, 255, 255, 0.28);
+            top: -180px;
+            left: -130px;
+        }
+
+        .circle-two {
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.18);
+            bottom: -250px;
+            right: -170px;
+        }
+
+
+        /* =========================================
+           MAIN CONTAINER
+        ========================================= */
+
+        .login-wrapper {
+            width: min(1000px, 92%);
+            min-height: 570px;
+
+            background: #ffffff;
+
+            display: flex;
+
+            border-radius: 8px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 20px 60px rgba(52, 105, 135, 0.20);
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+
+        /* =========================================
+           LEFT ILLUSTRATION PANEL
+        ========================================= */
+
+        .illustration-section {
+            width: 50%;
+
+            background: #eaf7ff;
+
+            position: relative;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            overflow: hidden;
+        }
+
+        .illustration-section::before {
+            content: "";
+
+            position: absolute;
+
+            width: 420px;
+            height: 420px;
+
+            border-radius: 50%;
+
+            background: #d7effb;
+
+            top: -150px;
+            left: -120px;
+        }
+
+        .illustration-section::after {
+            content: "";
+
+            position: absolute;
+
+            width: 390px;
+            height: 390px;
+
+            border-radius: 50%;
+
+            background: #dff4fc;
+
+            bottom: -180px;
+            right: -140px;
+        }
+
+
+        /* =========================================
+           EDUCATION ILLUSTRATION
+        ========================================= */
+
+        .illustration {
+            width: 430px;
+            max-width: 90%;
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+        .illustration-title {
+            text-align: center;
+
+            color: #299bd2;
+
+            font-size: 17px;
+            font-weight: 700;
+
+            margin-bottom: 25px;
+
+            letter-spacing: 1px;
+        }
+
+        .education-scene {
+            height: 300px;
+
+            position: relative;
+        }
+
+
+        /* Laptop */
+
+        .laptop {
+            position: absolute;
+
+            width: 250px;
+            height: 155px;
+
+            background: #303044;
+
+            border-radius: 10px;
+
+            left: 85px;
+            top: 55px;
+
+            box-shadow:
+                0 8px 0 #222334;
+        }
+
+        .laptop-screen {
+            position: absolute;
+
+            width: 220px;
+            height: 125px;
+
+            background: #44445b;
+
+            border-radius: 6px;
+
+            left: 15px;
+            top: 15px;
+        }
+
+        .screen-circle {
+            width: 45px;
+            height: 45px;
+
+            border-radius: 50%;
+
+            background: #36a9e1;
+
+            position: absolute;
+
+            left: 88px;
+            top: 35px;
+        }
+
+        .screen-line {
+            width: 95px;
+            height: 8px;
+
+            border-radius: 10px;
+
+            background: #75c7ed;
+
+            position: absolute;
+
+            left: 62px;
+            top: 90px;
+        }
+
+        .laptop-base {
+            position: absolute;
+
+            width: 290px;
+            height: 18px;
+
+            background: #303044;
+
+            border-radius: 0 0 20px 20px;
+
+            left: 65px;
+            top: 207px;
+        }
+
+
+        /* Graduation cap */
+
+        .graduation-cap {
+            position: absolute;
+
+            left: 35px;
+            top: 25px;
+
+            width: 105px;
+            height: 35px;
+
+            background: #222222;
+
+            transform: rotate(-8deg);
+
+            z-index: 5;
+        }
+
+        .graduation-cap::before {
+            content: "";
+
+            position: absolute;
+
+            width: 80px;
+            height: 80px;
+
+            background: #222222;
+
+            left: 12px;
+            top: -23px;
+
+            transform: rotate(45deg);
+
+            z-index: -1;
+        }
+
+        .graduation-cap::after {
+            content: "";
+
+            position: absolute;
+
+            width: 55px;
+            height: 5px;
+
+            background: #ef5757;
+
+            right: -42px;
+            top: 32px;
+
+            transform: rotate(20deg);
+        }
+
+
+        /* Diploma */
+
+        .diploma {
+            position: absolute;
+
+            width: 25px;
+            height: 125px;
+
+            background: #ffffff;
+
+            border: 2px solid #d7d7d7;
+
+            right: 65px;
+            top: 10px;
+
+            transform: rotate(-12deg);
+
+            z-index: 4;
+        }
+
+        .diploma::after {
+            content: "";
+
+            position: absolute;
+
+            width: 9px;
+            height: 9px;
+
+            background: #299bd2;
+
+            border-radius: 50%;
+
+            bottom: 12px;
+            left: 7px;
+        }
+
+
+        /* Student figures */
+
+        .person {
+            position: absolute;
+
+            z-index: 5;
+        }
+
+        .person-one {
+            right: 35px;
+            bottom: 48px;
+        }
+
+        .person-two {
+            left: 35px;
+            bottom: 42px;
+        }
+
+        .head {
+            width: 24px;
+            height: 24px;
+
+            background: #f1b48f;
+
+            border-radius: 50%;
+
+            margin: auto;
+        }
+
+        .body {
+            width: 32px;
+            height: 55px;
+
+            background: #299bd2;
+
+            border-radius: 12px 12px 5px 5px;
+
+            margin-top: 4px;
+        }
+
+        .legs {
+            display: flex;
+
+            gap: 5px;
+
+            justify-content: center;
+        }
+
+        .leg {
+            width: 8px;
+            height: 42px;
+
+            background: #303044;
+
+            border-radius: 8px;
+        }
+
+
+        /* =========================================
+           RIGHT LOGIN PANEL
+        ========================================= */
+
+        .login-section {
+            width: 50%;
+
+            padding: 55px 70px;
+
+            display: flex;
+            flex-direction: column;
+
+            justify-content: center;
+
+            background: #ffffff;
+        }
+
+
+        /* =========================================
+           BRANDING
+        ========================================= */
+
+        .brand {
+            text-align: center;
+
+            margin-bottom: 35px;
+        }
+
+        .brand-icon {
+            width: 64px;
+            height: 64px;
+
+            margin: 0 auto 15px;
+
+            background: #299bd2;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            color: white;
+
+            font-size: 27px;
+            font-weight: 800;
+
+            box-shadow: 0 7px 18px rgba(41, 155, 210, 0.25);
+        }
+
+        .brand h1 {
+            color: #222222;
+
+            font-size: 25px;
+
+            font-weight: 800;
+
+            letter-spacing: 1px;
+
+            margin-bottom: 7px;
+        }
+
+        .brand p {
+            color: #299bd2;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            letter-spacing: 0.5px;
+        }
+
+
+        /* =========================================
+           FLASH MESSAGES
+        ========================================= */
+
+        .message {
+            padding: 11px 13px;
+
+            border-radius: 6px;
+
+            font-size: 13px;
+
+            text-align: center;
+
+            margin-bottom: 18px;
+        }
+
+        .error-message {
+            color: #b42318;
+
+            background: #fff0ee;
+
+            border: 1px solid #f2c1bb;
+        }
+
+        .success-message {
+            color: #237a36;
+
+            background: #edf9ef;
+
+            border: 1px solid #b9dfc0;
+        }
+
+
+        /* =========================================
+           FORM
+        ========================================= */
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            display: block;
+
+            color: #777777;
+
+            font-size: 12px;
+
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+
+            border: none;
+
+            border-bottom: 1px solid #bdbdbd;
+
+            padding: 10px 3px;
+
+            font-size: 14px;
+
+            outline: none;
+
+            color: #333333;
+
+            background: transparent;
+
+            transition: 0.25s ease;
+        }
+
+        .form-group input:focus {
+            border-bottom: 2px solid #299bd2;
+        }
+
+        .form-group input::placeholder {
+            color: #b5b5b5;
+        }
+
+
+        /* =========================================
+           REMEMBER + FORGOT
+        ========================================= */
+
+        .options {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin: -5px 0 27px;
+
+            font-size: 11px;
+        }
+
+        .remember {
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            color: #666666;
+        }
+
+        .remember input {
+            width: 15px;
+            height: 15px;
+
+            accent-color: #299bd2;
+
+            cursor: pointer;
+        }
+
+        .forgot {
+            color: #555555;
+
+            text-decoration: none;
+
+            cursor: pointer;
+        }
+
+        .forgot:hover {
+            color: #299bd2;
+        }
+
+
+        /* =========================================
+           LOGIN BUTTON
+        ========================================= */
+
+        .login-button {
+            width: 100%;
+
+            height: 48px;
+
+            border: none;
+
+            border-radius: 3px;
+
+            background: #299bd2;
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.25s ease;
+
+            box-shadow: 0 6px 14px rgba(41, 155, 210, 0.20);
+        }
+
+        .login-button:hover {
+            background: #2189bd;
+
+            transform: translateY(-1px);
+
+            box-shadow: 0 8px 18px rgba(41, 155, 210, 0.25);
+        }
+
+        .login-button:active {
+            transform: translateY(0);
+        }
+
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        .footer {
+            text-align: center;
+
+            margin-top: 30px;
+
+            color: #aaaaaa;
+
+            font-size: 10px;
+
+            letter-spacing: 0.3px;
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (max-width: 800px) {
+
+            body {
+                padding: 30px 0;
+            }
+
+            .login-wrapper {
+                width: 92%;
+
+                flex-direction: column;
+
+                min-height: auto;
+            }
+
+            .illustration-section {
+                width: 100%;
+
+                min-height: 310px;
+
+                padding: 25px;
+            }
+
+            .login-section {
+                width: 100%;
+
+                padding: 45px 35px;
+            }
+
+            .education-scene {
+                transform: scale(0.85);
+            }
+        }
+
+
+        @media (max-width: 480px) {
+
+            .login-wrapper {
+                width: 94%;
+            }
+
+            .illustration-section {
+                min-height: 270px;
+            }
+
+            .education-scene {
+                transform: scale(0.68);
+            }
+
+            .login-section {
+                padding: 35px 25px;
+            }
+
+            .brand h1 {
+                font-size: 21px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <!-- Background decoration -->
+
+    <div class="background-circle circle-one"></div>
+    <div class="background-circle circle-two"></div>
+
+
+    <!-- MAIN LOGIN CARD -->
+
+    <div class="login-wrapper">
+
+
+        <!-- =====================================
+             LEFT SIDE
+        ====================================== -->
+
+        <div class="illustration-section">
+
+            <div class="illustration">
+
+                <div class="illustration-title">
+                    SMARTER STUDENT MANAGEMENT
+                </div>
+
+
+                <div class="education-scene">
+
+
+                    <!-- Graduation cap -->
+
+                    <div class="graduation-cap"></div>
+
+
+                    <!-- Diploma -->
+
+                    <div class="diploma"></div>
+
+
+                    <!-- Laptop -->
+
+                    <div class="laptop">
+
+                        <div class="laptop-screen">
+
+                            <div class="screen-circle"></div>
+
+                            <div class="screen-line"></div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="laptop-base"></div>
+
+
+                    <!-- Student 1 -->
+
+                    <div class="person person-one">
+
+                        <div class="head"></div>
+
+                        <div class="body"></div>
+
+                        <div class="legs">
+
+                            <div class="leg"></div>
+                            <div class="leg"></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Student 2 -->
+
+                    <div class="person person-two">
+
+                        <div class="head"></div>
+
+                        <div class="body"></div>
+
+                        <div class="legs">
+
+                            <div class="leg"></div>
+                            <div class="leg"></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================================
+             RIGHT SIDE
+        ====================================== -->
+
+        <div class="login-section">
+
+
+            <!-- BRAND -->
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    PI
+                </div>
+
+                <h1>
+                    PRODIGY INFOTECH
+                </h1>
+
+                <p>
+                    Student Performance &amp; Management Portal
+                </p>
+
+            </div>
+
+
+            <!-- FLASH MESSAGES -->
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% if messages %}
+
+                    {% for category, message in messages %}
+
+                        {% if category == "error" %}
+
+                            <div class="message error-message">
+                                ❌ {{ message }}
+                            </div>
+
+                        {% elif category == "success" %}
+
+                            <div class="message success-message">
+                                ✅ {{ message }}
+                            </div>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                {% endif %}
+
+            {% endwith %}
+
+
+
+            <!-- LOGIN FORM -->
+
+            <form
+                method="POST"
+                action="{{ url_for('login') }}"
+            >
+
+
+                <!-- USERNAME -->
+
+                <div class="form-group">
+
+                    <label for="username">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Enter your username"
+                        autocomplete="username"
+                        required
+                        autofocus
+                    >
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- OPTIONS -->
+
+                <div class="options">
+
+                    <label class="remember">
+
+                        <input
+                            type="checkbox"
+                            name="remember"
+                        >
+
+                        <span>
+                            Remember me
+                        </span>
+
+                    </label>
+
+
+                    <a
+                        href="#"
+                        class="forgot"
+                        onclick="alert('Please contact the administrator to reset your password.'); return false;"
+                    >
+                        Forgot Password?
+                    </a>
+
+                </div>
+
+
+                <!-- LOGIN BUTTON -->
+
+                <button
+                    type="submit"
+                    class="login-button"
+                >
+                    Sign In
+                </button>
+
+            </form>
+
+
+            <!-- FOOTER -->
+
+            <div class="footer">
+
+                Prodigy Infotech &nbsp;•&nbsp; Student Management System
+                <br>
+                © 2026 All Rights Reserved
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

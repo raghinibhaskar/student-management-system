@@ -2,20 +2,14 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Dashboard | Student Analytics</title>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-
         * {
             box-sizing: border-box;
         }
@@ -27,86 +21,48 @@
             color: #333;
         }
 
-
-        /* =========================
-           SIDEBAR
-        ========================= */
+        /* SIDEBAR */
 
         .sidebar {
-
             position: fixed;
-
             left: 0;
-
             top: 0;
-
             width: 240px;
-
             height: 100vh;
-
             background: white;
-
             border-right: 1px solid #e5e5e5;
-
             padding: 25px 15px;
-
         }
-
 
         .logo {
-
             font-size: 20px;
-
             font-weight: bold;
-
             padding: 10px 15px 30px;
-
             line-height: 1.3;
-
         }
-
 
         .logo span {
-
             font-size: 25px;
-
         }
-
 
         .nav-link {
-
             display: block;
-
             padding: 14px 18px;
-
             margin-bottom: 8px;
-
             text-decoration: none;
-
             color: #555;
-
             border-radius: 8px;
-
             font-size: 15px;
-
         }
-
 
         .nav-link:hover {
-
             background: #f0f1f5;
-
         }
-
 
         .nav-link.active {
-
             background: #333;
-
             color: white;
-
         }
-
 
         .logout-link {
             color: #d64545;
@@ -118,896 +74,498 @@
             color: #b83232;
         }
 
-
-        /* =========================
-           MAIN CONTENT
-        ========================= */
+        /* MAIN CONTENT */
 
         .main-content {
-
             margin-left: 240px;
-
             padding: 35px;
-
         }
 
-
-        /* =========================
-           PAGE HEADER
-        ========================= */
+        /* PAGE HEADER */
 
         .page-header {
-
             display: flex;
-
             justify-content: space-between;
-
             align-items: center;
-
             margin-bottom: 30px;
-
         }
-
 
         .page-header h1 {
-
             margin: 0;
-
             font-size: 28px;
-
         }
-
 
         .page-header p {
-
             color: #777;
-
             margin-top: 8px;
-
         }
-
 
         .add-button {
-
             background: #333;
-
             color: white;
-
             padding: 12px 20px;
-
             text-decoration: none;
-
             border-radius: 7px;
-
             font-size: 14px;
-
         }
-
 
         .add-button:hover {
-
             opacity: 0.85;
-
         }
 
-
-        /* =========================
-           SUMMARY CARDS
-        ========================= */
+        /* SUMMARY CARDS */
 
         .summary-grid {
-
             display: grid;
-
-            grid-template-columns:
-                repeat(4, 1fr);
-
+            grid-template-columns: repeat(4, 1fr);
             gap: 20px;
-
             margin-bottom: 30px;
-
         }
-
 
         .summary-card {
-
             background: white;
-
             border: 1px solid #eee;
-
             border-radius: 12px;
-
             padding: 25px;
-
         }
-
 
         .summary-card h3 {
-
             margin: 0;
-
             font-size: 14px;
-
             color: #777;
-
             font-weight: normal;
-
         }
-
 
         .summary-card .number {
-
             margin-top: 12px;
-
             font-size: 30px;
-
             font-weight: bold;
-
         }
-
 
         .summary-card .description {
-
             margin-top: 8px;
-
             font-size: 13px;
-
             color: #999;
-
         }
 
-
-        /* =========================
-           RISK COLORS
-        ========================= */
+        /* RISK COLORS */
 
         .high-number {
-
             color: #e74c3c;
-
         }
-
 
         .medium-number {
-
             color: #d68910;
-
         }
-
 
         .low-number {
-
             color: #27863b;
-
         }
 
-
-        /* =========================
-           CHART GRID
-        ========================= */
+        /* CHART GRID */
 
         .chart-grid {
-
             display: grid;
-
-            grid-template-columns:
-                repeat(2, 1fr);
-
+            grid-template-columns: repeat(2, 1fr);
             gap: 25px;
-
             margin-bottom: 25px;
-
         }
-
 
         .chart-card {
-
             background: white;
-
             border: 1px solid #eee;
-
             border-radius: 12px;
-
             padding: 25px;
-
         }
-
 
         .chart-card h2 {
-
             margin-top: 0;
-
             margin-bottom: 5px;
-
             font-size: 19px;
-
         }
-
 
         .chart-card p {
-
             color: #777;
-
             font-size: 13px;
-
             margin-top: 5px;
-
             margin-bottom: 20px;
-
         }
-
 
         .chart-container {
-
             position: relative;
-
             height: 330px;
-
             width: 100%;
-
         }
 
-
-        /* =========================
-           FULL WIDTH CHART
-        ========================= */
+        /* FULL WIDTH CHART */
 
         .full-chart {
-
             margin-bottom: 25px;
-
         }
-
 
         .full-chart .chart-container {
-
             height: 350px;
-
         }
 
-
-        /* =========================
-           QUICK ACTIONS
-        ========================= */
+        /* QUICK ACTIONS */
 
         .quick-actions {
-
             background: white;
-
             border: 1px solid #eee;
-
             border-radius: 12px;
-
             padding: 25px;
-
             margin-top: 25px;
-
         }
-
 
         .quick-actions h2 {
-
             margin-top: 0;
-
             font-size: 19px;
-
         }
-
 
         .action-buttons {
-
             display: flex;
-
             gap: 12px;
-
             flex-wrap: wrap;
-
             margin-top: 20px;
-
         }
-
 
         .action-button {
-
             padding: 12px 18px;
-
             border-radius: 7px;
-
             text-decoration: none;
-
             font-size: 14px;
-
             background: #333;
-
             color: white;
-
         }
-
 
         .action-button.secondary {
-
             background: #eee;
-
             color: #333;
-
         }
-
 
         .action-button:hover {
-
             opacity: 0.85;
-
         }
 
-
-        /* =========================
-           RESPONSIVE
-        ========================= */
+        /* RESPONSIVE */
 
         @media (max-width: 1100px) {
-
             .summary-grid {
-
-                grid-template-columns:
-                    repeat(2, 1fr);
-
+                grid-template-columns: repeat(2, 1fr);
             }
-
 
             .chart-grid {
-
-                grid-template-columns:
-                    1fr;
-
+                grid-template-columns: 1fr;
             }
-
         }
-
 
         @media (max-width: 700px) {
-
             .sidebar {
-
                 position: relative;
-
                 width: 100%;
-
                 height: auto;
-
             }
-
 
             .main-content {
-
                 margin-left: 0;
-
                 padding: 20px;
-
             }
-
 
             .page-header {
-
                 display: block;
-
             }
-
 
             .add-button {
-
                 display: inline-block;
-
                 margin-top: 15px;
-
             }
-
 
             .summary-grid {
-
-                grid-template-columns:
-                    1fr;
-
+                grid-template-columns: 1fr;
             }
-
         }
-
     </style>
-
 </head>
-
 
 <body>
 
-
-    <!-- =========================
-         SIDEBAR
-    ========================= -->
+    <!-- SIDEBAR -->
 
     <aside class="sidebar">
 
-
         <div class="logo">
-
             <span>🎓</span>
-
             <br>
-
             Student Analytics
-
         </div>
 
-
-        <a
-            href="{{ url_for('dashboard') }}"
-            class="nav-link active"
-        >
-
+        <a href="{{ url_for('dashboard') }}" class="nav-link active">
             📊 Dashboard
-
         </a>
 
-
-        <a
-            href="{{ url_for('students') }}"
-            class="nav-link"
-        >
-
+        <a href="{{ url_for('students') }}" class="nav-link">
             👥 Student Records
-
         </a>
 
-
-        <a
-            href="{{ url_for('add_student') }}"
-            class="nav-link"
-        >
-
+        <a href="{{ url_for('add_student') }}" class="nav-link">
             ➕ Add Student
-
         </a>
 
-
-        <a
-            href="{{ url_for('logout') }}"
-            class="nav-link logout-link"
-            onclick="return confirm('Are you sure you want to log out of Prodigy Infotech?');"
-        >
+        <a href="{{ url_for('logout') }}"
+           class="nav-link logout-link"
+           onclick="return confirm('Are you sure you want to log out?');">
             🚪 Logout
         </a>
-
 
     </aside>
 
 
-
-    <!-- =========================
-         MAIN CONTENT
-    ========================= -->
+    <!-- MAIN CONTENT -->
 
     <main class="main-content">
 
-
-        <!-- =========================
-             HEADER
-        ========================= -->
+        <!-- HEADER -->
 
         <div class="page-header">
 
-
             <div>
-
-                <h1>
-
-                    Dashboard
-
-                </h1>
-
+                <h1>Dashboard</h1>
 
                 <p>
-
                     Monitor student performance,
                     engagement, attendance and risk.
-
                 </p>
-
             </div>
 
-
-            <a
-                href="{{ url_for('add_student') }}"
-                class="add-button"
-            >
-
+            <a href="{{ url_for('add_student') }}" class="add-button">
                 + Add New Student
-
             </a>
-
 
         </div>
 
 
-
-        <!-- =========================
-             SUMMARY CARDS
-        ========================= -->
+        <!-- SUMMARY CARDS -->
 
         <section class="summary-grid">
 
-
-            <!-- TOTAL STUDENTS -->
-
             <div class="summary-card">
 
-                <h3>
-
-                    Total Students
-
-                </h3>
-
+                <h3>Total Students</h3>
 
                 <div class="number">
-
                     {{ total_students }}
-
                 </div>
 
-
                 <div class="description">
-
                     Students in the system
-
                 </div>
 
             </div>
 
 
-
-            <!-- AVERAGE GPA -->
-
             <div class="summary-card">
 
-                <h3>
-
-                    Average GPA
-
-                </h3>
-
+                <h3>Average GPA</h3>
 
                 <div class="number">
-
                     {{ "%.2f"|format(average_gpa) }}
-
                 </div>
 
-
                 <div class="description">
-
                     Overall student GPA
-
                 </div>
 
             </div>
 
 
-
-            <!-- AVERAGE ATTENDANCE -->
-
             <div class="summary-card">
 
-                <h3>
-
-                    Average Attendance
-
-                </h3>
-
+                <h3>Average Attendance</h3>
 
                 <div class="number">
-
-                    {{ "%.0f"|format(
-                        average_attendance * 100
-                    ) }}%
-
+                    {{ "%.0f"|format(average_attendance * 100) }}%
                 </div>
 
-
                 <div class="description">
-
                     Overall attendance rate
-
                 </div>
 
             </div>
 
 
-
-            <!-- HIGH RISK -->
-
             <div class="summary-card">
 
-                <h3>
-
-                    High Risk Students
-
-                </h3>
-
+                <h3>High Risk Students</h3>
 
                 <div class="number high-number">
-
                     {{ high_risk_students }}
-
                 </div>
 
-
                 <div class="description">
-
                     Students requiring attention
-
                 </div>
 
             </div>
-
 
         </section>
 
 
-
-        <!-- =========================
-             RISK + ATTENDANCE CHARTS
-        ========================= -->
+        <!-- RISK + ATTENDANCE -->
 
         <section class="chart-grid">
-
 
             <!-- RISK DISTRIBUTION -->
 
             <div class="chart-card">
 
-
                 <h2>
-
                     Student Risk Distribution
-
                 </h2>
 
-
                 <p>
-
                     Overview of students by risk level.
-
                 </p>
 
-
                 <div class="chart-container">
-
-                    <canvas
-                        id="riskChart"
-                    ></canvas>
-
+                    <canvas id="riskChart"></canvas>
                 </div>
 
-
             </div>
-
 
 
             <!-- ATTENDANCE -->
 
             <div class="chart-card">
 
-
                 <h2>
-
                     Attendance Overview
-
                 </h2>
 
-
                 <p>
-
                     Students grouped by attendance performance.
-
                 </p>
 
-
                 <div class="chart-container">
-
-                    <canvas
-                        id="attendanceChart"
-                    ></canvas>
-
+                    <canvas id="attendanceChart"></canvas>
                 </div>
 
-
             </div>
-
 
         </section>
 
 
-
-        <!-- =========================
-             MAJOR DISTRIBUTION
-        ========================= -->
+        <!-- MAJOR DISTRIBUTION -->
 
         <section class="chart-card full-chart">
 
-
             <h2>
-
                 Students by Major
-
             </h2>
 
-
             <p>
-
                 Distribution of students across academic majors.
-
             </p>
 
-
             <div class="chart-container">
-
-                <canvas
-                    id="majorChart"
-                ></canvas>
-
+                <canvas id="majorChart"></canvas>
             </div>
-
 
         </section>
 
 
-
-        <!-- =========================
-             ACADEMIC PERFORMANCE
-        ========================= -->
+        <!-- ACADEMIC PERFORMANCE -->
 
         <section class="chart-card full-chart">
 
-
             <h2>
-
                 Overall Academic & Engagement Performance
-
             </h2>
 
-
             <p>
-
                 Average performance across key student metrics.
-
             </p>
 
-
             <div class="chart-container">
-
-                <canvas
-                    id="performanceChart"
-                ></canvas>
-
+                <canvas id="performanceChart"></canvas>
             </div>
-
 
         </section>
 
 
-
-        <!-- =========================
-             QUICK ACTIONS
-        ========================= -->
+        <!-- QUICK ACTIONS -->
 
         <section class="quick-actions">
 
-
             <h2>
-
                 Quick Actions
-
             </h2>
 
-
             <p>
-
                 Manage student records and monitor individual performance.
-
             </p>
-
 
             <div class="action-buttons">
 
-
-                <a
-                    href="{{ url_for('students') }}"
-                    class="action-button"
-                >
-
+                <a href="{{ url_for('students') }}"
+                   class="action-button">
                     👥 View Student Records
-
                 </a>
 
-
-                <a
-                    href="{{ url_for('add_student') }}"
-                    class="action-button"
-                >
-
+                <a href="{{ url_for('add_student') }}"
+                   class="action-button">
                     ➕ Add New Student
-
                 </a>
-
 
             </div>
 
-
         </section>
-
 
     </main>
 
 
-
-    <!-- =========================
-         CHARTS
-    ========================= -->
+    <!-- CHARTS -->
 
     <script>
-
 
         /* ==================================================
            RISK DISTRIBUTION CHART
         ================================================== */
 
+        const riskElement = document.getElementById("riskChart");
 
-        const riskCtx =
+        if (riskElement) {
 
-            document
-                .getElementById(
-                    "riskChart"
-                )
-                .getContext("2d");
+            const riskCtx = riskElement.getContext("2d");
 
-
-        new Chart(
-
-            riskCtx,
-
-            {
+            new Chart(riskCtx, {
 
                 type: "doughnut",
-
 
                 data: {
 
                     labels: [
-
                         "High Risk",
-
                         "Medium Risk",
-
                         "Low Risk"
-
                     ],
 
+                    datasets: [{
+                        data: [
+                            Number("{{ high_risk_students }}"),
+                            Number("{{ medium_risk_students }}"),
+                            Number("{{ low_risk_students }}")
+                        ],
 
-                    datasets: [
-    {
-        data: [
-            Number("{{ high_risk_students }}"),
-            Number("{{ medium_risk_students }}"),
-            Number("{{ low_risk_students }}")
-        ],
+                        backgroundColor: [
+                            "#e74c3c",
+                            "#f1c40f",
+                            "#2ecc71"
+                        ],
 
-        backgroundColor: [
-            "#e74c3c",
-            "#f1c40f",
-            "#2ecc71"
-        ],
+                        borderWidth: 2
+                    }]
 
-        borderWidth: 2
-    }
-]
-
+                },
 
                 options: {
 
@@ -1015,106 +573,72 @@
 
                     maintainAspectRatio: false,
 
-
                     plugins: {
 
                         legend: {
-
                             position: "bottom"
-
                         }
 
                     }
 
                 }
 
-            }
+            });
 
-        );
-
+        }
 
 
         /* ==================================================
            ATTENDANCE CHART
         ================================================== */
 
+        const attendanceElement =
+            document.getElementById("attendanceChart");
 
-        const attendanceCtx =
+        if (attendanceElement) {
 
-            document
-                .getElementById(
-                    "attendanceChart"
-                )
-                .getContext("2d");
+            const attendanceCtx =
+                attendanceElement.getContext("2d");
 
-
-        new Chart(
-
-            attendanceCtx,
-
-            {
+            new Chart(attendanceCtx, {
 
                 type: "bar",
-
 
                 data: {
 
                     labels: [
-
                         "Below 50%",
-
                         "50% - 69%",
-
                         "70% and Above"
-
                     ],
 
+                    datasets: [{
 
-                    datasets: [
+                        label: "Number of Students",
 
-                        {
+                        data: [
+                            Number("{{ attendance_below_50 }}"),
+                            Number("{{ attendance_50_to_70 }}"),
+                            Number("{{ attendance_above_70 }}")
+                        ],
 
-                            label:
-                                "Number of Students",
+                        backgroundColor: [
+                            "#e74c3c",
+                            "#f1c40f",
+                            "#2ecc71"
+                        ],
 
+                        borderRadius: 8
 
-                            data: [
-
-                                {{ attendance_below_50 }},
-
-                                {{ attendance_50_to_70 }},
-
-                                {{ attendance_above_70 }}
-
-                            ],
-
-
-                            backgroundColor: [
-
-                                "#e74c3c",
-
-                                "#f1c40f",
-
-                                "#2ecc71"
-
-                            ],
-
-
-                            borderRadius: 8
-
-                        }
-
-                    ]
+                    }]
 
                 },
-
 
                 options: {
 
                     responsive: true,
 
                     maintainAspectRatio: false,
-
 
                     scales: {
 
@@ -1123,113 +647,76 @@
                             beginAtZero: true,
 
                             ticks: {
-
                                 stepSize: 1
-
                             }
 
                         }
 
                     },
 
-
                     plugins: {
 
                         legend: {
-
                             display: false
-
                         }
 
                     }
 
                 }
 
-            }
+            });
 
-        );
-
+        }
 
 
         /* ==================================================
            STUDENTS BY MAJOR
         ================================================== */
 
+        const majorElement =
+            document.getElementById("majorChart");
 
-        const majorCtx =
+        if (majorElement) {
 
-            document
-                .getElementById(
-                    "majorChart"
-                )
-                .getContext("2d");
+            const majorCtx =
+                majorElement.getContext("2d");
 
-
-        new Chart(
-
-            majorCtx,
-
-            {
+            new Chart(majorCtx, {
 
                 type: "bar",
 
-
                 data: {
 
-                    labels:
+                    labels: {{ major_names | tojson }},
 
-                        {{ major_names | tojson }},
+                    datasets: [{
 
+                        label: "Number of Students",
 
-                    datasets: [
+                        data: {{ major_counts | tojson }},
 
-                        {
+                        backgroundColor: [
+                            "#3498db",
+                            "#9b59b6",
+                            "#1abc9c",
+                            "#e67e22",
+                            "#34495e",
+                            "#e84393",
+                            "#00b894",
+                            "#6c5ce7"
+                        ],
 
-                            label:
-                                "Number of Students",
+                        borderRadius: 8
 
-
-                            data:
-
-                                {{ major_counts | tojson }},
-
-
-                            backgroundColor: [
-
-                                "#3498db",
-
-                                "#9b59b6",
-
-                                "#1abc9c",
-
-                                "#e67e22",
-
-                                "#34495e",
-
-                                "#e84393",
-
-                                "#00b894",
-
-                                "#6c5ce7"
-
-                            ],
-
-
-                            borderRadius: 8
-
-                        }
-
-                    ]
+                    }]
 
                 },
-
 
                 options: {
 
                     responsive: true,
 
                     maintainAspectRatio: false,
-
 
                     scales: {
 
@@ -1238,121 +725,82 @@
                             beginAtZero: true,
 
                             ticks: {
-
                                 stepSize: 1
-
                             }
 
                         }
 
                     },
 
-
                     plugins: {
 
                         legend: {
-
                             display: false
-
                         }
 
                     }
 
                 }
 
-            }
+            });
 
-        );
-
+        }
 
 
         /* ==================================================
            OVERALL PERFORMANCE
         ================================================== */
 
+        const performanceElement =
+            document.getElementById("performanceChart");
 
-        const performanceCtx =
+        if (performanceElement) {
 
-            document
-                .getElementById(
-                    "performanceChart"
-                )
-                .getContext("2d");
+            const performanceCtx =
+                performanceElement.getContext("2d");
 
-
-        new Chart(
-
-            performanceCtx,
-
-            {
+            new Chart(performanceCtx, {
 
                 type: "bar",
-
 
                 data: {
 
                     labels: [
-
                         "Course Grade",
-
                         "Assignment Submission",
-
                         "Video Completion",
-
                         "Attendance"
-
                     ],
 
+                    datasets: [{
 
-                    datasets: [
+                        label: "Average Performance",
 
-                        {
+                        data: [
+                            Number("{{ average_course_grade }}"),
+                            Number("{{ average_assignment_rate * 100 }}"),
+                            Number("{{ average_video_completion * 100 }}"),
+                            Number("{{ average_attendance * 100 }}")
+                        ],
 
-                            label:
-                                "Average Performance",
+                        backgroundColor: [
+                            "#3498db",
+                            "#9b59b6",
+                            "#1abc9c",
+                            "#e67e22"
+                        ],
 
+                        borderRadius: 8
 
-                            data: [
-
-                                {{ average_course_grade }},
-
-                                {{ average_assignment_rate * 100 }},
-
-                                {{ average_video_completion * 100 }},
-
-                                {{ average_attendance * 100 }}
-
-                            ],
-
-
-                            backgroundColor: [
-
-                                "#3498db",
-
-                                "#9b59b6",
-
-                                "#1abc9c",
-
-                                "#e67e22"
-
-                            ],
-
-
-                            borderRadius: 8
-
-                        }
-
-                    ]
+                    }]
 
                 },
-
 
                 options: {
 
                     responsive: true,
 
                     maintainAspectRatio: false,
-
 
                     scales: {
 
@@ -1362,15 +810,11 @@
 
                             max: 100,
 
-
                             ticks: {
 
-                                callback:
-                                    function(value) {
-
-                                        return value + "%";
-
-                                    }
+                                callback: function(value) {
+                                    return value + "%";
+                                }
 
                             }
 
@@ -1378,26 +822,21 @@
 
                     },
 
-
                     plugins: {
 
                         legend: {
-
                             display: false
-
                         }
 
                     }
 
                 }
 
-            }
+            });
 
-        );
-
+        }
 
     </script>
-
 
 </body>
 
